@@ -26,7 +26,7 @@ class World {
         this.setWorld();
     }
 
-    setWorld(){
+    setWorld() {
         this.character.world = this;
     }
 
@@ -52,6 +52,14 @@ class World {
     }
 
     addToMap(mo) {
+        if (mo.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.img.width, 0);
+            this.ctx.scale(-1, 1);
+        }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if(mo.otherDirection){
+            this.ctx.restore();
+        }
     }
 }

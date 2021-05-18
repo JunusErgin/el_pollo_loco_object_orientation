@@ -27,13 +27,21 @@ class MovableObject {
         });
     }
 
+    playAnimation(images) {
+        let i = this.currentImage % images.length; // let i = 7 % 6; => 1, Rest 1 
+        // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
     moveRight() {
         console.log('Moving right');
     }
 
-    moveLeft(){
-        setInterval(()=>{
+    moveLeft() {
+        setInterval(() => {
             this.x -= this.speed;
-        }, 1000/60);
+        }, 1000 / 60);
     }
 }

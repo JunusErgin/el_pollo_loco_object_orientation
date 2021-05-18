@@ -1,5 +1,5 @@
-class MovableObject extends DrawableObject{
-   
+class MovableObject extends DrawableObject {
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -17,7 +17,11 @@ class MovableObject extends DrawableObject{
     }
 
     isAboveGround() {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) { // Throwable object should always fall
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
 
     // character.isColliding(chicken);
@@ -28,22 +32,22 @@ class MovableObject extends DrawableObject{
             this.y < mo.y + mo.height;
     }
 
-    hit(){
+    hit() {
         this.energy -= 5;
-        if(this.energy < 0){
+        if (this.energy < 0) {
             this.energy = 0;
-        }else{
+        } else {
             this.lastHit = new Date().getTime();
         }
     }
 
-    isHurt(){
+    isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
-    isDead(){
+    isDead() {
         return this.energy == 0;
     }
 

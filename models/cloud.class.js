@@ -3,9 +3,10 @@ class Cloud extends MovableObject{
    width = 500;
    height = 250;
 
-    constructor(){
+    constructor(width, height){
         super().loadImage('img/5.Fondo/Capas/4.nubes/1.png');
-        
+        this.width = width;
+        this.height = height;
         this.x = Math.random() * 500; //Zahl zwieschen 0 und 500
         this.animate();
     }

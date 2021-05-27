@@ -4,6 +4,7 @@ class World {
     enemies = level1.enemies;
     clouds = level1.clouds;
     backgroundObjects = level1.backgroundObjects;
+    coins = level1.coins;
     ctx;
     canvas;
     keyboard;
@@ -62,9 +63,10 @@ class World {
         this.ctx.translate(this.camera_x, 0); //Forwards
 
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.enemies);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);
 

@@ -23,6 +23,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        console.log(this);
     }
 
     run() {
@@ -33,18 +34,29 @@ class World {
         }, 200);
     }
 
-    checkThrowObjects(){
-        if(this.keyboard.D){
+    checkThrowObjects() {
+        if (this.keyboard.D) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+
+        this.checkCollisionsWihtCollectibles(this.coins);
+        this.checkCollisionsWihtCollectibles(this.bootes);
+    }
+
+    checkCollisionsWihtCollectibles(array){
+        array.forEach((element, index)=>{
+            if(this.character.isColliding(element)){
+               array.splice(index, 1);
             }
         });
     }
@@ -55,20 +67,19 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
+        this.addObjectsToMap(this.clouds);
         this.ctx.translate(-this.camera_x, 0); //Back
+
+        this.ctx.translate(this.camera_x, 0); //Forwards
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.enemies);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
+
         // --------- Space for fixed Objects ---------
         this.addToMap(this.statusBar);
         // --------- Space for fixed Objects End ---------
-        this.ctx.translate(this.camera_x, 0); //Forwards
-
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.clouds);
-        this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.level.coins);
-
-        this.ctx.translate(-this.camera_x, 0);
 
         let self = this;
         requestAnimationFrame(function () {

@@ -27,7 +27,6 @@ class World {
     }
 
     run() {
-
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
@@ -50,7 +49,7 @@ class World {
         });
 
         this.checkCollisionsWihtCollectibles(this.coins);
-        this.checkCollisionsWihtCollectibles(this.bootes);
+        //this.checkCollisionsWihtCollectibles(this.bottles);
     }
 
     checkCollisionsWihtCollectibles(array){

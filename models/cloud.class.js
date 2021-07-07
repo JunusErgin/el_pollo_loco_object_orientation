@@ -4,6 +4,7 @@ class Cloud extends MovableObject{
    height = 250;
 
     constructor(width, height){
+       
         super().loadImage('img/5.Fondo/Capas/4.nubes/1.png');
         this.width = width;
         this.height = height;
@@ -12,6 +13,6 @@ class Cloud extends MovableObject{
     }
 
     animate(){
-        this.moveLeft();
+        setInterval( ()=>{ this.moveLeft() }, 1000/60);
     }
 }

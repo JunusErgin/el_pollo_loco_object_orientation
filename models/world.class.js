@@ -11,6 +11,7 @@ class World {
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObjects = [];
+    clearRect =  new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 0, 0);
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -62,14 +63,16 @@ class World {
 
     //Draw() wird immer wieder aufgerufen
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
+        // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.addToMap(this.clearRect);
         this.addObjectsToMap(this.clouds);
-        this.ctx.translate(-this.camera_x, 0); //Back
+
+        // this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        // this.ctx.translate(-this.camera_x, 0); //Back
 
         this.ctx.translate(this.camera_x, 0); //Forwards
+       
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.enemies);
@@ -97,8 +100,16 @@ class World {
             this.flipImage(mo);
         }
 
+        if(mo instanceof BackgroundObject){
+            this.ctx.translate(this.camera_x * mo.distance, 0);
+        }
+        
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+
+        if(mo instanceof BackgroundObject){
+            this.ctx.translate(-this.camera_x * mo.distance, 0);
+        }
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

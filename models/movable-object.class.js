@@ -1,5 +1,4 @@
 class MovableObject extends DrawableObject {
-
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -17,14 +16,14 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        if (this instanceof ThrowableObject) { // Throwable object should always fall
+        // Throwable object should always fall
+        if (this instanceof ThrowableObject) {
             return true;
         } else {
             return this.y < 180;
         }
     }
 
-    // character.isColliding(chicken);
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
@@ -51,9 +50,14 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    kill() {
+        this.energy = 0;
+    }
+
     playAnimation(images) {
-        let i = this.currentImage % images.length; // let i = 7 % 6; => 1, Rest 1 
-        // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0
+        // let i = 7 % 6; => 1, Rest 1 
+        let i = this.currentImage % images.length;
+        // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;

@@ -1,4 +1,4 @@
-class DrawableObject{
+class DrawableObject {
     x = 120;
     y = 280;
     height = 150;
@@ -8,9 +8,8 @@ class DrawableObject{
     currentImage = 0;
     distance = 1;
 
-    //loadImage('img/test.png')
     loadImage(path) {
-        this.img = new Image(); //this.img = document.getElementById('image) <img id="image" src>
+        this.img = new Image();
         this.img.src = path;
     }
 
@@ -29,10 +28,9 @@ class DrawableObject{
     }
 
     /**
-     * 
      * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...] 
      */
-     loadImages(arr) {
+    loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
             img.src = path;

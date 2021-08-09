@@ -5,12 +5,10 @@ const level1 = new Level(
         new Chicken(),
         new EndBoss()
     ],
-
     [
         new Cloud(300, 200),
         new Cloud(800, 400)
     ],
-
     [
 
         // new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', -719),
@@ -38,9 +36,7 @@ const level1 = new Level(
         new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 719 * 3, 0.7),
         new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 719 * 3),
     ],
-
     getLevelCoins()
-
 );
 
 function getCoinsCollection(firstX, firstY) {
@@ -53,11 +49,28 @@ function getCoinsCollection(firstX, firstY) {
     ];
 }
 
-function getLevelCoins(){
+function getLevelCoins() {
     let collection1 = getCoinsCollection(100, 300);
     let collection2 = getCoinsCollection(400, 300);
     let collection3 = getCoinsCollection(600, 300);
     let collection4 = getCoinsCollection(1000, 300);
-
     return collection1.concat(collection2, collection3, collection4);
+}
+
+function getLevelChickens() {
+    let collection1 = getChickensCollection(100);
+    let collection2 = getChickensCollection(400);
+    let collection3 = getChickensCollection(600);
+    let collection4 = getChickensCollection(1000);
+    return collection1.concat(collection2, collection3, collection4);
+}
+
+function getChickensCollection(firstX) {
+    return [
+        new Chicken(firstX + 0 * 100),
+        new Chicken(firstX + 1 * 100),
+        new Chicken(firstX + 2 * 100),
+        new Chicken(firstX + 3 * 100),
+        new Chicken(firstX + 4 * 100)
+    ];
 }

@@ -1,18 +1,13 @@
 class World {
-    character = new Character();
-    level = level1;
-    enemies = level1.enemies;
-    clouds = level1.clouds;
-    backgroundObjects = level1.backgroundObjects;
-    coins = level1.coins;
     ctx;
     canvas;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    level = level1;
     throwableObjects = [];
+    character = new Character();
+    statusBar = new StatusBar();
     clearRect =  new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 0, 0);
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -39,17 +34,30 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
+        this.throwableObjects.forEach( throwableObject =>{
+            this.level.enemies.forEach( enemy =>{
+                if(!enemy.isDead()){
+                    if(throwableObject.isColliding(enemy)){
+                        console.log("Enemy Hit");
+                        enemy.kill();
+                        setTimeout(()=>{
+                            let position = this.level.enemies.indexOf(enemy);
+                            this.level.enemies.splice(position, 1);
+                        }, 2000);
+                    }
+                }
+            });
+        } );
     }
 
     checkCollisions() {
-        this.enemies.forEach((enemy) => {
+        this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
-
-        this.checkCollisionsWihtCollectibles(this.coins);
+        this.checkCollisionsWihtCollectibles(this.level.coins);
         //this.checkCollisionsWihtCollectibles(this.bottles);
     }
 
@@ -60,12 +68,11 @@ class World {
             }
         });
     }
-
     //Draw() wird immer wieder aufgerufen
     draw() {
         // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.addToMap(this.clearRect);
-        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.level.clouds);
 
         // this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
@@ -75,7 +82,7 @@ class World {
        
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
 
@@ -99,18 +106,14 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-
         if(mo instanceof BackgroundObject){
             this.ctx.translate(this.camera_x * mo.distance, 0);
         }
-        
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
-
         if(mo instanceof BackgroundObject){
             this.ctx.translate(-this.camera_x * mo.distance, 0);
         }
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
